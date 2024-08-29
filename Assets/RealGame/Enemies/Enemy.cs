@@ -18,8 +18,6 @@ public class Enemy : MonoBehaviour
             rb = gameObject.AddComponent<Rigidbody2D>();
         }
         rb.gravityScale = 0f;  // No gravity
-        rb.freezeRotation = true;  // Prevent rotation
-        rb.drag = 0.5f;  // Add some drag to slow down after impulses
     }
 
     void FixedUpdate()

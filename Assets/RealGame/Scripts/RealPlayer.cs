@@ -14,6 +14,7 @@ public class RealPlayer : MonoBehaviour
     public int hp = 3; // 100 float duh
     public int maxHp = 3; // 100 float duh
     public float impulseForce = 10f;
+    public float impulseRadius = 10f;
 
 
     // Start is called before the first frame update
@@ -48,13 +49,12 @@ public class RealPlayer : MonoBehaviour
             StartCoroutine(ImmunityCoroutine());
         }
     }
-
     void TakeDamage()
     {
         Debug.Log("Player took damage! Current HP: " + hp);
         hp -= 1;
         // Apply a radial impulse to all enemies when taking damage
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 10f);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, impulseRadius);
         foreach (Collider2D hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Enemy"))
@@ -62,8 +62,15 @@ public class RealPlayer : MonoBehaviour
                 Rigidbody2D enemyRb = hitCollider.GetComponent<Rigidbody2D>();
                 if (enemyRb != null)
                 {
-                    Vector2 direction = (hitCollider.transform.position - transform.position).normalized;
-                    enemyRb.AddForce(direction * impulseForce, ForceMode2D.Impulse);
+                    Vector2 direction = (hitCollider.transform.position - transform.position);
+                    float distance = direction.magnitude;
+                    direction.Normalize();
+                    float distanceRatio = (distance - impulseRadius / 2) / (impulseRadius / 2);
+                    // just trying to make it look kinda okay? like i want everything to launch away towards roughly the same radius
+                    float forceMagnitude = distance < impulseRadius / 2 ? impulseForce : impulseForce * (1 - Mathf.Sqrt(distanceRatio));
+                    forceMagnitude = Mathf.Max(0, forceMagnitude); // Ensure non-negative force
+
+                    enemyRb.AddForce(direction * forceMagnitude, ForceMode2D.Impulse);
                 }
             }
         }
