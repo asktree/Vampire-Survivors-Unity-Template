@@ -1,37 +1,69 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefabs;
     public Transform playerTransform;
     public float spawnDistanceFromPlayer = 50f;
-    public float spawnInterval = 2f;
+    public GameObject skullPrefab;
+    public GameObject lordPrefab;
+
+    private Queue<(GameObject, float)> spawnQueue = new Queue<(GameObject, float)>();
 
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         // Ensure we have necessary references
-        if (enemyPrefab == null || playerTransform == null)
+        if (enemyPrefabs == null || enemyPrefabs.Length == 0 || playerTransform == null)
         {
-            Debug.LogError("EnemySpawner: Missing enemyPrefab or player reference!");
+            Debug.LogError("EnemySpawner: Missing enemyPrefabs or player reference!");
             return;
         }
 
-        // Start the spawning coroutine
+        // Start the spawning coroutines
         StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnSkullsForever());
+        StartCoroutine(SpawnLordsForever());
+    }
+
+    private IEnumerator SpawnSkullsForever()
+    {
+        while (true)
+        {
+            spawnQueue.Enqueue((skullPrefab, 0f));
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private IEnumerator SpawnLordsForever()
+    {
+        while (true)
+        {
+            spawnQueue.Enqueue((lordPrefab, 0f));
+            yield return new WaitForSeconds(5f);
+        }
     }
 
     private IEnumerator SpawnEnemyRoutine()
     {
         while (true)
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(spawnInterval);
+            if (spawnQueue.Count > 0)
+            {
+                (GameObject enemyPrefab, float delay) = spawnQueue.Dequeue();
+                SpawnEnemy(enemyPrefab);
+                yield return new WaitForSeconds(delay);
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 
-    private void SpawnEnemy()
+    private void SpawnEnemy(GameObject enemyPrefab)
     {
         // Generate a random angle
         float angle = Random.Range(0f, 360f);

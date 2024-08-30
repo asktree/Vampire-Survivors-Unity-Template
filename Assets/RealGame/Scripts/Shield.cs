@@ -8,6 +8,7 @@ public class Shield : MonoBehaviour
   public float parryDuration = 0.75f;
   public float parryCooldown = 3f;
   public float parryRadius = 2f;
+  public float radialImpulseForce = 10f;
   public KeyCode parryKey = KeyCode.Space;
 
   private bool isParrying = false;
@@ -218,7 +219,7 @@ public class Shield : MonoBehaviour
   void ParryAttack()
   {
     Debug.Log("Parry successful!");
-    impulseManager.ApplyRadialImpulse(transform.position, 15f, 10f);
+    impulseManager.ApplyRadialImpulse(transform.position, radialImpulseForce, parryRadius * 3);
     // You might want to add some additional effects or bonuses for a successful parry here
   }
 
