@@ -17,7 +17,8 @@ public class Enemy : MonoBehaviour
     public float currentHealth;
     private SpriteRenderer spriteRenderer;
     private BloodSplatterTilemap bloodTilemap;
-    private Color color;
+    public Color color = Color.red;
+    public Color bloodColor = Color.black;
     private Coroutine bleedCoroutine;
 
     void Start()

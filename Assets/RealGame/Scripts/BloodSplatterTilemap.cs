@@ -37,7 +37,33 @@ public class BloodSplatterTilemap : MonoBehaviour
     // Public method to spawn blood particles
     public void SpawnBlood(int amount, Vector2 velocity, float angleSpread, float distanceSpread, Vector3 position, float radius = 0f)
     {
-        for (int i = 0; i < amount; i++)
+        int rayAmount = amount;
+        int particleAmount = amount / 10;
+
+        // Spawn blood using rays
+        for (int i = 0; i < rayAmount; i++)
+        {
+            Vector3 spawnPosition = position;
+            if (radius > 0f)
+            {
+                Vector2 randomOffset = Random.insideUnitCircle * radius;
+                spawnPosition += new Vector3(randomOffset.x, randomOffset.y, 0f);
+            }
+
+            float randomAngle = RandomGaussian() * angleSpread;
+            float randomDistance = RandomExponential(1f / distanceSpread);
+            Vector2 direction = Quaternion.Euler(0, 0, randomAngle) * velocity.normalized;
+            Vector3 endPosition = spawnPosition + (Vector3)(direction * randomDistance);
+
+            // Convert the end position to Tilemap position
+            Vector3Int tilePosition = bloodTilemap.WorldToCell(endPosition);
+
+            // Place the blood tile on the Tilemap immediately
+            bloodTilemap.SetTile(tilePosition, bloodTile);
+        }
+
+        // Spawn a smaller number of visible particles
+        for (int i = 0; i < particleAmount; i++)
         {
             // Calculate spawn position
             Vector3 spawnPosition = position;
