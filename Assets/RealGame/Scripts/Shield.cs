@@ -22,20 +22,12 @@ public class Shield : MonoBehaviour
   private GameObject phantomShield;
   private SpriteRenderer phantomSpriteRenderer;
 
-  private Animator animator;
-
-
   private Vector3 baseScale;
 
   void Start()
   {
     baseScale = transform.localScale;
 
-    animator = GetComponent<Animator>();
-    if (animator == null)
-    {
-      Debug.LogError("Animator component not found on the shield!");
-    }
 
     spriteRenderer = GetComponent<SpriteRenderer>();
     if (spriteRenderer != null)
@@ -81,6 +73,7 @@ public class Shield : MonoBehaviour
     phantomSpriteRenderer.sprite = spriteRenderer.sprite;
     phantomSpriteRenderer.color = new Color(1f, 1f, 0f, 0f); // Yellow with 0 alpha
     phantomSpriteRenderer.enabled = false;
+    phantomSpriteRenderer.sortingOrder = 6;
   }
 
   void Update()
@@ -210,8 +203,10 @@ public class Shield : MonoBehaviour
     {
       if (hitCollider.CompareTag("Enemy"))
       {
+        Debug.Log("bingbong");
         ParryAttack();
-        break;
+        isParrying = false;
+        return;
       }
     }
   }
@@ -220,6 +215,7 @@ public class Shield : MonoBehaviour
   {
     Debug.Log("Parry successful!");
     impulseManager.ApplyRadialImpulse(transform.position, radialImpulseForce, parryRadius * 3);
+
     // You might want to add some additional effects or bonuses for a successful parry here
   }
 

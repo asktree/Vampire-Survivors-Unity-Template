@@ -4,6 +4,10 @@ public class ImpulseManager : MonoBehaviour
 {
   public void ApplyRadialImpulse(Vector3 center, float impulseForce, float impulseRadius)
   {
+    Debug.DrawLine(center, center + Vector3.right * impulseForce, Color.red, 1f);
+    Debug.DrawLine(center, center + Vector3.left * impulseRadius, Color.red, 1f);
+    Debug.DrawLine(center, center + Vector3.up * impulseForce, Color.red, 1f);
+    Debug.DrawLine(center, center + Vector3.down * impulseRadius, Color.red, 1f);
     Collider2D[] hitColliders = Physics2D.OverlapCircleAll(center, impulseRadius);
     foreach (Collider2D hitCollider in hitColliders)
     {

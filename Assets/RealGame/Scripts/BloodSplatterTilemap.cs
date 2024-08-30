@@ -51,9 +51,12 @@ public class BloodSplatterTilemap : MonoBehaviour
             }
 
             float randomAngle = RandomGaussian() * angleSpread;
-            float randomDistance = RandomExponential(1f / distanceSpread);
+            float randomDistance = RandomExponential(1f / distanceSpread) / 2;
             Vector2 direction = Quaternion.Euler(0, 0, randomAngle) * velocity.normalized;
+
             Vector3 endPosition = spawnPosition + (Vector3)(direction * randomDistance);
+
+
 
             // Convert the end position to Tilemap position
             Vector3Int tilePosition = bloodTilemap.WorldToCell(endPosition);
@@ -91,7 +94,7 @@ public class BloodSplatterTilemap : MonoBehaviour
 
             // Apply initial velocity with Gaussian distribution for angle and exponential distribution for distance
             float randomAngle = RandomGaussian() * angleSpread;
-            float randomDistance = RandomExponential(1f / distanceSpread);
+            float randomDistance = RandomExponential(1f / distanceSpread) / 2;
             Vector2 spreadVector = Quaternion.Euler(0, 0, randomAngle) * velocity.normalized * randomDistance;
 
             // Calculate velocity dropoff based on angle

@@ -39,7 +39,7 @@ public class RealPlayer : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
@@ -53,12 +53,11 @@ public class RealPlayer : MonoBehaviour
 
     public void TakeDamage()
     {
-        Debug.Log("player taking damage");
         if (!isImmune)
         {
             Debug.Log("Player took damage! Current HP: " + hp);
             hp -= 1;
-            impulseManager.ApplyRadialImpulse(transform.position, 10f, 10f);
+            impulseManager.ApplyRadialImpulse(transform.position, 50f, 10f);
             if (hp <= 0)
             {
                 // Handle player death here

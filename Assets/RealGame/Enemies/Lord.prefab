@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2826339098948718090}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.23606434, y: -0.30040544, z: 0.10319267, w: 0.918358}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.87, y: 0.26, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -21.813, y: -40.3, z: 20.911}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6834191384679404138
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66cd79f096c384e33b6980ed03dc87f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 300
+  movementSpeed: 150
   maxVelocity: 2
   rotationSpeed: 200
   maxHealth: 1000
@@ -108,6 +108,8 @@ MonoBehaviour:
   maxBleedInterval: 0.4
   baseBloodAmount: 1
   currentHealth: 0
+  color: {r: 1, g: 0, b: 0, a: 1}
+  bloodColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!58 &5904969713837403506
 CircleCollider2D:
   m_ObjectHideFlags: 0

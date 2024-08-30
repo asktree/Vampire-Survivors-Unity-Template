@@ -196,7 +196,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 1010427357, guid: 7180347e581bd4ca187ac7c65cea89fd, type: 3}
   m_Color: {r: 0, g: 0.9193516, b: 1, a: 1}
   m_FlipX: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
   damage: 50
   fireRate: 3
   bulletPrefab: {fileID: 328040247772980766, guid: 7319a15a05dde4486b4fcacaf6175108, type: 3}
-  bulletSpeed: 12
+  bulletSpeed: 20
   detectionRadius: 10
 --- !u!1 &520220691
 GameObject:
@@ -33929,7 +33929,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 243308875, guid: 7180347e581bd4ca187ac7c65cea89fd, type: 3}
   m_Color: {r: 0.3726415, g: 0.6777918, b: 1, a: 1}
   m_FlipX: 0
@@ -34704,6 +34704,18 @@ PrefabInstance:
     - target: {fileID: 2535220547034698562, guid: 70d0423dd3c8c4881b255b9569323784, type: 3}
       propertyPath: m_Name
       value: Gore Grid
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391474388308134263, guid: 70d0423dd3c8c4881b255b9569323784, type: 3}
+      propertyPath: bloodColor.b
+      value: 0.17181383
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391474388308134263, guid: 70d0423dd3c8c4881b255b9569323784, type: 3}
+      propertyPath: bloodColor.g
+      value: 0.17181383
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391474388308134263, guid: 70d0423dd3c8c4881b255b9569323784, type: 3}
+      propertyPath: bloodColor.r
+      value: 0.9339623
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
