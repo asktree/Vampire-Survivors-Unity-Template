@@ -34037,87 +34037,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!1001 &660815654
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2745939836973859821, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_Mass
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2745939836973859821, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LinearDrag
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826339098948718090, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_Name
-      value: Lord
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.87
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.26
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.918358
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.23606434
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.30040544
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.10319267
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -21.813
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -40.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2886361587397413654, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 20.911
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430691138874784522, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: maxHealth
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430691138874784522, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: maxVelocity
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430691138874784522, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: movementSpeed
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430691138874784522, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
-      propertyPath: baseBloodAmount
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2cccdb20635b3427889330a6dea60434, type: 3}
 --- !u!1 &677293445
 GameObject:
   m_ObjectHideFlags: 0
@@ -34210,7 +34129,7 @@ MonoBehaviour:
   parryDuration: 0.75
   parryCooldown: 3
   parryRadius: 2
-  radialImpulseForce: 10
+  radialImpulseForce: 100
   parryKey: 32
 --- !u!212 &940589097
 SpriteRenderer:
@@ -34730,4 +34649,3 @@ SceneRoots:
   - {fileID: 1051511280}
   - {fileID: 1992390626}
   - {fileID: 1774280011}
-  - {fileID: 660815654}
