@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 723076126, guid: 6f583d00e92e94ae1aebb262f2ae9e25, type: 3}
-  m_Color: {r: 1, g: 0.00000006755193, b: 0, a: 1}
+  m_Sprite: {fileID: 1016336915, guid: 7180347e581bd4ca187ac7c65cea89fd, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 20
-  maxVelocity: 4.5
+  maxVelocity: 8
   rotationSpeed: 200
   maxHealth: 100
   flashDuration: 0.1
@@ -142,7 +142,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
 --- !u!50 &8989889307698603076
 Rigidbody2D:
   serializedVersion: 4
@@ -155,8 +155,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 1
+  m_Mass: 2
+  m_LinearDrag: 0.1
   m_AngularDrag: 0.005
   m_GravityScale: 0
   m_Material: {fileID: 0}

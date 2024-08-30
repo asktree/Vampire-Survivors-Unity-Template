@@ -70,6 +70,16 @@ public class Enemy : MonoBehaviour
 
             // Apply the rotation
             rb.MoveRotation(rotationAmount);
+
+            // Flip the sprite if the enemy is to the right of the player
+            if (transform.position.x > playerTransform.position.x)
+            {
+                spriteRenderer.flipY = true;
+            }
+            else
+            {
+                spriteRenderer.flipY = false;
+            }
         }
     }
 
