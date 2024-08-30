@@ -4,9 +4,9 @@ using System.Collections;
 public class Wand : MonoBehaviour
 {
   public float damage = 10f;
-  public float fireRate = 1f;
+  public float fireRate = 3f;
   public GameObject bulletPrefab;
-  public float bulletSpeed = 10f;
+  public float bulletSpeed = 15f;
   public float detectionRadius = 10f;
 
   private Transform nearestEnemy;
@@ -72,7 +72,9 @@ public class Wand : MonoBehaviour
     if (wandEmitter != null)
     {
       GameObject bullet = Instantiate(bulletPrefab, wandEmitter.position, wandEmitter.rotation);
+      Bullet bulletBullet = bullet.GetComponent<Bullet>();
       Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+      bulletBullet.damage = damage;
       if (rb != null)
       {
         rb.velocity = wandEmitter.right * bulletSpeed;

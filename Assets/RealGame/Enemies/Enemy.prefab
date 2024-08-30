@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 723076126, guid: 6f583d00e92e94ae1aebb262f2ae9e25, type: 3}
   m_Color: {r: 1, g: 0.00000006755193, b: 0, a: 1}
   m_FlipX: 0
@@ -102,6 +102,12 @@ MonoBehaviour:
   movementSpeed: 20
   maxVelocity: 4.5
   rotationSpeed: 200
+  maxHealth: 100
+  flashDuration: 0.1
+  minBleedInterval: 0.05
+  maxBleedInterval: 0.4
+  baseBloodAmount: 3
+  currentHealth: 0
 --- !u!58 &804916872258063067
 CircleCollider2D:
   m_ObjectHideFlags: 0
