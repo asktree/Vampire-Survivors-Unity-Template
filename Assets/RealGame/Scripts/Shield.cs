@@ -21,8 +21,21 @@ public class Shield : MonoBehaviour
   private GameObject phantomShield;
   private SpriteRenderer phantomSpriteRenderer;
 
+  private Animator animator;
+
+
+  private Vector3 baseScale;
+
   void Start()
   {
+    baseScale = transform.localScale;
+
+    animator = GetComponent<Animator>();
+    if (animator == null)
+    {
+      Debug.LogError("Animator component not found on the shield!");
+    }
+
     spriteRenderer = GetComponent<SpriteRenderer>();
     if (spriteRenderer != null)
     {
@@ -51,6 +64,7 @@ public class Shield : MonoBehaviour
     {
       circleCollider = gameObject.AddComponent<CircleCollider2D>();
     }
+    circleCollider.transform.SetParent(player.transform);
     circleCollider.isTrigger = true;
     circleCollider.radius = parryRadius;
 
@@ -60,7 +74,7 @@ public class Shield : MonoBehaviour
   void CreatePhantomShield()
   {
     phantomShield = new GameObject("PhantomShield");
-    phantomShield.transform.SetParent(transform);
+    phantomShield.transform.SetParent(player.transform);
     phantomShield.transform.localPosition = Vector3.zero;
     phantomSpriteRenderer = phantomShield.AddComponent<SpriteRenderer>();
     phantomSpriteRenderer.sprite = spriteRenderer.sprite;
@@ -95,48 +109,72 @@ public class Shield : MonoBehaviour
     canParry = false;
 
     // Visual feedback for parry
-    StartCoroutine(AnimatePhantomShield());
+    StartCoroutine(AnimateShield());
+    StartCoroutine(FadeOutShield());
 
     yield return new WaitForSeconds(parryDuration);
 
     isParrying = false;
-    StartCoroutine(FadeOutPhantomShield());
 
     yield return new WaitForSeconds(parryCooldown - parryDuration);
+    StartCoroutine(FadeInShield());
+
 
     canParry = true;
   }
 
-  IEnumerator AnimatePhantomShield()
+  IEnumerator FadeInShield()
   {
-    phantomSpriteRenderer.enabled = true;
+    float fadeInDuration = 0.2f;
     float elapsedTime = 0f;
-    float growDuration = parryDuration * 0.75f; // Grow for 75% of the parry duration
-
-    // Instantly set the shield to its maximum size and alpha
-    phantomShield.transform.localScale = Vector3.one * 1.5f;
-    phantomSpriteRenderer.color = new Color(1f, 1f, 0f, 0.5f);
-
-    while (elapsedTime < growDuration)
+    while (elapsedTime < fadeInDuration)
     {
-      // Hold the maximum size and alpha
+      float t = elapsedTime / fadeInDuration;
+      float alpha = Mathf.Lerp(0f, 1f, t);
+
+      spriteRenderer.color = new Color(1f, 1f, 1f, alpha);
+
       elapsedTime += Time.deltaTime;
       yield return null;
     }
+    spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
   }
 
-  IEnumerator FadeOutPhantomShield()
+  IEnumerator AnimateShield()
   {
-    float fadeOutDuration = 0.2f;
+    phantomSpriteRenderer.enabled = true;
+    spriteRenderer.enabled = true;
     float elapsedTime = 0f;
+    float growDuration = parryDuration * 0.5f; // Reduce duration for faster animation
+    float fadeDuration = parryDuration * 0.25f; // Fade out duration
 
-    while (elapsedTime < fadeOutDuration)
+    // Start with 60% of normal shield size
+    phantomShield.transform.localScale = Vector3.one * 0.6f;
+    phantomSpriteRenderer.color = new Color(1f, 1f, 0f, 0f); // Start fully transparent
+
+    while (elapsedTime < growDuration)
     {
-      float t = elapsedTime / fadeOutDuration;
-      float scale = Mathf.Lerp(1.5f, 1f, t);
-      float alpha = Mathf.Lerp(0.5f, 0f, t);
+      float t = elapsedTime / growDuration;
+      float easedT = 1f - Mathf.Pow(1f - t, 3f); // Ease out cubic
 
+      // Grow to 2x normal shield size
+      float scale = Mathf.Lerp(0.6f, 2f, easedT);
       phantomShield.transform.localScale = Vector3.one * scale;
+
+      // Fade in to 50% opacity
+      float alpha = Mathf.Lerp(0f, 0.5f, easedT);
+      phantomSpriteRenderer.color = new Color(1f, 1f, 0f, alpha);
+
+      elapsedTime += Time.deltaTime;
+      yield return null;
+    }
+
+    // Fade out
+    elapsedTime = 0f;
+    while (elapsedTime < fadeDuration)
+    {
+      float t = elapsedTime / fadeDuration;
+      float alpha = Mathf.Lerp(0.5f, 0f, t);
       phantomSpriteRenderer.color = new Color(1f, 1f, 0f, alpha);
 
       elapsedTime += Time.deltaTime;
@@ -144,7 +182,24 @@ public class Shield : MonoBehaviour
     }
 
     phantomSpriteRenderer.enabled = false;
-    phantomShield.transform.localScale = Vector3.one;
+    phantomShield.transform.localScale = Vector3.one; // Reset scale
+  }
+
+  IEnumerator FadeOutShield()
+  {
+    float fadeOutDuration = 0.2f;
+    float elapsedTime = 0f;
+
+    while (elapsedTime < fadeOutDuration)
+    {
+      float t = elapsedTime / fadeOutDuration;
+      float alpha = Mathf.Lerp(1f, 0f, t);
+
+      spriteRenderer.color = new Color(1f, 1f, 1f, alpha);
+
+      elapsedTime += Time.deltaTime;
+      yield return null;
+    }
   }
 
   void CheckForParry()
@@ -182,12 +237,3 @@ public class Shield : MonoBehaviour
     }
   }
 }
-
-// Instructions:
-// 1. Create a new GameObject as a child of the player and name it "Shield"
-// 2. Attach this Shield script to the Shield GameObject
-// 3. Add a SpriteRenderer to the Shield GameObject for visual representation
-// 4. Adjust the parryRadius, parryDuration, and parryCooldown in the Inspector as needed
-// 5. Set the parryKey in the Inspector to the desired key for activating the parry
-// 6. Make sure the Shield GameObject has a circular sprite assigned to its SpriteRenderer
-//    component. This sprite will be used for both the main shield and the phantom shield.
