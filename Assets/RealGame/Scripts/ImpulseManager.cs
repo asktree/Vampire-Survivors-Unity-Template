@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class ImpulseManager : MonoBehaviour
 {
-  public float impulseForce = 10f;
-  public float impulseRadius = 10f;
-
-  public void ApplyRadialImpulse(Vector3 center)
+  public void ApplyRadialImpulse(Vector3 center, float impulseForce, float impulseRadius)
   {
     Collider2D[] hitColliders = Physics2D.OverlapCircleAll(center, impulseRadius);
     foreach (Collider2D hitCollider in hitColliders)

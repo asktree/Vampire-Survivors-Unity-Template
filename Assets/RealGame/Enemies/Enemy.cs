@@ -85,7 +85,6 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("damage time!");
         currentHealth -= damage;
         StartCoroutine(FlashYellow());
 
