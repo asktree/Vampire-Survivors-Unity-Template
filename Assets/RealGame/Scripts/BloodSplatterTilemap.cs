@@ -51,7 +51,7 @@ public class BloodSplatterTilemap : MonoBehaviour
             }
 
             float randomAngle = RandomGaussian() * angleSpread;
-            float randomDistance = RandomExponential(1f / distanceSpread) / 2;
+            float randomDistance = RandomExponential(1f / distanceSpread) / 4;
             Vector2 direction = Quaternion.Euler(0, 0, randomAngle) * velocity.normalized;
 
             Vector3 endPosition = spawnPosition + (Vector3)(direction * randomDistance);
