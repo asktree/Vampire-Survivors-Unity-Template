@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RealPlayer : MonoBehaviour
 {
-
     // movement speed
     // hp
     // upgrades
@@ -13,9 +12,14 @@ public class RealPlayer : MonoBehaviour
     public float movementSpeed = 5f; // 5 float duh
     public int hp = 3; // 100 float duh
     public int maxHp = 3; // 100 float duh
-    public float impulseForce = 10f;
-    public float impulseRadius = 10f;
 
+    // Parry system variables
+    public float parryDuration = 0.75f;
+    public float parryCooldown = 3f;
+    private bool isParrying = false;
+    private bool canParry = true;
+
+    private ImpulseManager impulseManager;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +31,14 @@ public class RealPlayer : MonoBehaviour
         }
         rb.gravityScale = 0f;  // No gravity
         rb.freezeRotation = true;  // Prevent rotation
+
+        impulseManager = FindObjectOfType<ImpulseManager>();
+        if (impulseManager == null)
+        {
+            Debug.LogError("ImpulseManager not found in the scene!");
+        }
     }
+
     // Listen for inputs and move the player when the player presses regular movement keys
     void Update()
     {
@@ -36,6 +47,12 @@ public class RealPlayer : MonoBehaviour
         Vector2 movement = new Vector2(horizontalInput, verticalInput).normalized;
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.MovePosition(rb.position + movement * movementSpeed * Time.fixedDeltaTime);
+
+        // Check for parry input
+        if (Input.GetKeyDown(KeyCode.Space) && canParry)
+        {
+            StartCoroutine(Parry());
+        }
     }
 
     private bool isImmune = false;
@@ -43,37 +60,25 @@ public class RealPlayer : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && !isImmune)
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            TakeDamage();
-            StartCoroutine(ImmunityCoroutine());
+            if (isParrying)
+            {
+                ParryAttack();
+            }
+            else if (!isImmune)
+            {
+                TakeDamage();
+                StartCoroutine(ImmunityCoroutine());
+            }
         }
     }
+
     void TakeDamage()
     {
         Debug.Log("Player took damage! Current HP: " + hp);
         hp -= 1;
-        // Apply a radial impulse to all enemies when taking damage
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, impulseRadius);
-        foreach (Collider2D hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Enemy"))
-            {
-                Rigidbody2D enemyRb = hitCollider.GetComponent<Rigidbody2D>();
-                if (enemyRb != null)
-                {
-                    Vector2 direction = (hitCollider.transform.position - transform.position);
-                    float distance = direction.magnitude;
-                    direction.Normalize();
-                    float distanceRatio = (distance - impulseRadius / 2) / (impulseRadius / 2);
-                    // just trying to make it look kinda okay? like i want everything to launch away towards roughly the same radius
-                    float forceMagnitude = distance < impulseRadius / 2 ? impulseForce : impulseForce * (1 - Mathf.Sqrt(distanceRatio));
-                    forceMagnitude = Mathf.Max(0, forceMagnitude); // Ensure non-negative force
-
-                    enemyRb.AddForce(direction * forceMagnitude, ForceMode2D.Impulse);
-                }
-            }
-        }
+        impulseManager.ApplyRadialImpulse(transform.position);
         if (hp <= 0)
         {
             // Handle player death here
@@ -102,5 +107,32 @@ public class RealPlayer : MonoBehaviour
         spriteRenderer.enabled = true;
     }
 
+    IEnumerator Parry()
+    {
+        isParrying = true;
+        canParry = false;
 
+        // Visual feedback for parry (you might want to replace this with a proper animation)
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Color originalColor = spriteRenderer.color;
+        spriteRenderer.color = Color.blue;
+
+        yield return new WaitForSeconds(parryDuration);
+
+        isParrying = false;
+        spriteRenderer.color = originalColor;
+
+        yield return new WaitForSeconds(parryCooldown - parryDuration);
+
+        canParry = true;
+    }
+
+    void ParryAttack()
+    {
+        Debug.Log("Parry successful!");
+        impulseManager.ApplyRadialImpulse(transform.position);
+        // You might want to add some additional effects or bonuses for a successful parry here
+    }
 }
+
+//NEW FILE
