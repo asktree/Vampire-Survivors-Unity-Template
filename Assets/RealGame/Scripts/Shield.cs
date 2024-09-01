@@ -7,7 +7,7 @@ public class Shield : MonoBehaviour
 {
   public float parryDuration = 0.75f;
   public float parryCooldown = 3f;
-  public float parryRadius = 2f;
+  public float parryRadius = 1.5f;
   public float radialImpulseForce = 10f;
   public KeyCode parryKey = KeyCode.Space;
 
