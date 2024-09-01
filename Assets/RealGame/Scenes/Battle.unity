@@ -34128,7 +34128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parryDuration: 0.75
   parryCooldown: 3
-  parryRadius: 2
+  parryRadius: 1.5
   radialImpulseForce: 100
   parryKey: 32
 --- !u!212 &940589097
