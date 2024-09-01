@@ -4,7 +4,7 @@ public class Bullet : MonoBehaviour
 {
   public float damage = 50f;
   public float lifetime = 5f;
-  public float trailPersistTime = 0.1f;
+  public float trailPersistTime = 0.05f;
   private float impulseForce = 50f;
 
   private GameObject trailObject;
@@ -28,7 +28,6 @@ public class Bullet : MonoBehaviour
   private void OnTriggerEnter2D(Collider2D collider)
   {
     // Check if we hit an enemy
-    Debug.Log("hit");
     Enemy enemy = collider.gameObject.GetComponent<Enemy>();
     if (enemy != null)
     {
@@ -53,7 +52,7 @@ public class Bullet : MonoBehaviour
         int bloodBonus = enemyGonnaDie ? (int)enemy.maxHealth * 12 : 0;
         float bloodRadius = enemyGonnaDie ? 0.5f : 0.25f;
         float bloodSpeed = enemyGonnaDie ? 5f : 3f;
-        bloodTilemap.SpawnBlood(bloodAmount + bloodBonus, bulletVelocity, 30.0f, bloodSpeed, collisionPoint, bloodRadius);
+        bloodTilemap.SpawnBlood(bloodAmount + bloodBonus, bulletVelocity / 10, 30.0f, bloodSpeed, collisionPoint, bloodRadius);
       }
       enemy.TakeDamage(damage);
 
@@ -78,6 +77,15 @@ public class Bullet : MonoBehaviour
       trailObject.transform.SetParent(null);
       Destroy(trailObject, trailPersistTime);
     }
+    CrackleTrail[] crackleTrails = GetComponentsInChildren<CrackleTrail>();
+    foreach (CrackleTrail crackleTrail in crackleTrails)
+    {
+      GameObject crackleTrailObject = crackleTrail.gameObject;
+      crackleTrailObject.transform.SetParent(null);
+      crackleTrail.Update();
+      Destroy(crackleTrailObject, trailPersistTime);
+    }
+
     Destroy(gameObject);
   }
 }
