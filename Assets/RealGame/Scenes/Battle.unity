@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
-  fireRate: 3
+  fireRate: 2
   bulletPrefab: {fileID: 328040247772980766, guid: 7319a15a05dde4486b4fcacaf6175108, type: 3}
   bulletSpeed: 100
   detectionRadius: 10
@@ -33972,7 +33972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4bd43b7fbe449fbacf58969d9f75ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 6
+  movementSpeed: 20
   hp: 3
   maxHp: 3
 --- !u!58 &641029951
