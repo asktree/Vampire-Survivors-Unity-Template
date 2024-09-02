@@ -6,6 +6,7 @@ public class CrackleTrail : MonoBehaviour
 {
     // Configuration parameters
     public int numberOfPoints = 20;
+    public Material material;
     public float maxTangentialOffset = 0.5f;
     public float trailLength = 2f;
     public float updateDistance = 0.1f;
@@ -43,6 +44,8 @@ public class CrackleTrail : MonoBehaviour
         lineRenderer.numCapVertices = 4;
         lineRenderer.numCornerVertices = 4;
         lineRenderer.sortingOrder = 9;
+        lineRenderer.material = material;
+
 
         // Initialize trail points
         trailPoints = new List<Vector3>(numberOfPoints);

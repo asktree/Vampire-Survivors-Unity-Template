@@ -207,12 +207,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629024145663223259}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 362a7ba11864e43d3ab64dc5c3c83be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPoints: 40
+  material: {fileID: 2100000, guid: 8a02cf3f50c9842ae9dd71eb23de44aa, type: 2}
   maxTangentialOffset: 0.08
   trailLength: 200
   updateDistance: 1
@@ -258,12 +259,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4181067433126068300}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 362a7ba11864e43d3ab64dc5c3c83be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPoints: 200
+  material: {fileID: 2100000, guid: 8a02cf3f50c9842ae9dd71eb23de44aa, type: 2}
   maxTangentialOffset: 0.2
   trailLength: 200
   updateDistance: 0.4
@@ -323,7 +325,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8a02cf3f50c9842ae9dd71eb23de44aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -344,7 +346,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Time: 0.1
+  m_Time: 10
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -454,12 +456,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8978509965050972996}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 362a7ba11864e43d3ab64dc5c3c83be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPoints: 100
+  material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   maxTangentialOffset: 0.1
   trailLength: 200
   updateDistance: 0.4
