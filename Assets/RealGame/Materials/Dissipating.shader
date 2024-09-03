@@ -5,7 +5,7 @@ Shader "Unlit/SimplexNoise2D"
         _MainTex ("Texture", 2D) = "white" {}
         _Scale ("Noise scale", Float) = 1.0
         _Offset ("Noise offset", Float) = 0.0
-        _DissipationAmount ("Dissipation Amount", Range(0, 1)) = 0.5
+        _Trim ("Noise trim", Float) = 0.0
     }
     SubShader
     {
@@ -13,12 +13,12 @@ Shader "Unlit/SimplexNoise2D"
         LOD 100
 
         CGPROGRAM
-        #pragma surface surf Lambert alpha:fade vertex:vert
+        #pragma surface surf NoLighting alpha:fade vertex:vert noforwardadd
 
         sampler2D _MainTex;
         float _Scale;
         float _Offset;
-        float _DissipationAmount;
+        float _Trim;
 
         struct Input
         {
@@ -53,25 +53,27 @@ Shader "Unlit/SimplexNoise2D"
                         lerp(hash(i + n.xy), hash(i + n.yy), f.x), f.y);
         }
 
+        fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten)
+        {
+            return fixed4(s.Albedo, s.Alpha);
+        }
+
         void surf (Input IN, inout SurfaceOutput o)
         {
             float2 uv = IN.uv_MainTex;
             
-            // Calculate the object's local x-axis direction in world space
-            float3 localXAxis = normalize(mul(unity_ObjectToWorld, float4(1, 0, 0, 0)).xyz);
-            
-            // Project the world position onto the local x-axis
-            float projectedPos = dot(IN.worldPos, localXAxis);
             
             // Use projected position and object scale for noise calculation
-            float noiseInput = (projectedPos * IN.objectScale.x + _Offset) * _Scale;
-            float noiseval = noise(float2(noiseInput, 0));
+            float noiseInput = (uv + _Offset) * _Scale;
+            float noiseval = noise(noiseInput);
             
             fixed4 texColor = tex2D(_MainTex, uv);
-            o.Albedo = texColor.rgb;
+            o.Albedo = texColor.rgb * IN.color.rgb;
             
-            // Lerp between original alpha and 0 based on noise and dissipation amount
-            float alpha = lerp(texColor.a, 0, noiseval * _DissipationAmount);
+            // if noiseval < _Trim, alpha is zero. otherwise it's texColor.a
+            float alpha = noiseval < _Trim ? 0 : 1;
+            
+
             o.Alpha = alpha * IN.color.a;
         }
         ENDCG

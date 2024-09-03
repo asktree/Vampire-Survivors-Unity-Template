@@ -6,13 +6,16 @@ public class CrackleTrail : MonoBehaviour
 {
     // Configuration parameters
     public int numberOfPoints = 20;
-    public Material material;
+    public Shader trailShader;
     public float maxTangentialOffset = 0.5f;
     public float trailLength = 2f;
     public float updateDistance = 0.1f;
     public float updateDistanceVariance = 0.02f;
     public Color trailColor = Color.cyan;
     public float trailThickness = 0.1f;
+    public float trailThicknessMod = 1f;
+
+    public float dissipatedness = 0f;
 
     // Components
     private LineRenderer lineRenderer;
@@ -26,12 +29,25 @@ public class CrackleTrail : MonoBehaviour
 
     // Debug
     private List<Vector3> debugPoints = new List<Vector3>();
+    private Animator animator;
+
+    private bool isDead = false;
 
     private void Start()
     {
+        // Get the Animator component
+        animator = GetComponent<Animator>();
+
+        // Disable the Animator at start
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+
         // Initialize components
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        Material trailMaterial = new Material(trailShader);
+        lineRenderer.material = trailMaterial;
         Rigidbody2D parentRigidbody = GetComponentInParent<Rigidbody2D>();
         movementDirection = parentRigidbody.velocity.normalized;
 
@@ -44,7 +60,8 @@ public class CrackleTrail : MonoBehaviour
         lineRenderer.numCapVertices = 4;
         lineRenderer.numCornerVertices = 4;
         lineRenderer.sortingOrder = 9;
-        lineRenderer.material = material;
+        lineRenderer.textureMode = LineTextureMode.Static;
+        lineRenderer.material.SetFloat("_Scale", 3f);
 
 
         // Initialize trail points
@@ -58,8 +75,30 @@ public class CrackleTrail : MonoBehaviour
         SetNewUpdateDistance();
     }
 
+    public void Die()
+    {
+        if (!isDead)
+        {
+            isDead = true;
+
+            // Enable the Animator and trigger the death animation
+            if (animator != null)
+            {
+                animator.enabled = true;
+                //animator.SetTrigger("Die");
+            }
+
+        }
+    }
+
     public void Update()
     {
+        lineRenderer.startColor = trailColor;
+        lineRenderer.endColor = trailColor;
+        lineRenderer.startWidth = trailThickness * trailThicknessMod;
+        lineRenderer.endWidth = trailThickness * 0.2f * trailThicknessMod;
+        // Set the _Trim, or Noise trim, parameter of this material's shader to be equal to dissipatedness
+        lineRenderer.material.SetFloat("_Trim", dissipatedness);
         Vector3 currentPosition = transform.position;
         Vector3 movement = currentPosition - lastPosition;
         float distanceMoved = movement.magnitude;
@@ -155,4 +194,4 @@ public class CrackleTrail : MonoBehaviour
 // TODO: In the Unity Editor:
 // 1. Attach this script to a child object of the bullet
 // 2. Adjust the public parameters in the inspector as needed
-// 3. You may want to add a material to the Line Renderer for better visual effect
+// 3. Assign the desired shader to the trailShader field in the inspector

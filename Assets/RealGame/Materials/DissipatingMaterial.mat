@@ -77,10 +77,11 @@ Material:
     - _OcclusionStrength: 1
     - _Offset: 1
     - _Parallax: 0.02
-    - _Scale: 20
+    - _Scale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Trim: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

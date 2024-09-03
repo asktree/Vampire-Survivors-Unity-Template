@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
   private GameObject trailObject;
   private Rigidbody2D rb;
   private Transform playerTransform;
+  private ParticleSystem hitParticles;
 
   private void Start()
   {
@@ -23,6 +24,11 @@ public class Bullet : MonoBehaviour
     GetComponent<Collider2D>().isTrigger = true;
     Destroy(gameObject, lifetime);
     playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    hitParticles = GetComponentInChildren<ParticleSystem>();
+    if (hitParticles == null)
+    {
+      Debug.LogWarning("ParticleSystem child not found on the bullet.");
+    }
   }
 
   private void OnTriggerEnter2D(Collider2D collider)
@@ -71,6 +77,14 @@ public class Bullet : MonoBehaviour
       }
     }
 
+    // Emit particles on hit
+    if (hitParticles != null)
+    {
+      hitParticles.transform.SetParent(null);
+      hitParticles.Emit(10);
+      Destroy(hitParticles.gameObject, hitParticles.main.startLifetime.constantMax);
+    }
+
     // Persist the trail and destroy the bullet
     if (trailObject != null)
     {
@@ -83,6 +97,7 @@ public class Bullet : MonoBehaviour
       GameObject crackleTrailObject = crackleTrail.gameObject;
       crackleTrailObject.transform.SetParent(null);
       crackleTrail.Update();
+      crackleTrail.Die();
       Destroy(crackleTrailObject, trailPersistTime);
     }
 
