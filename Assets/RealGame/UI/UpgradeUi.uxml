@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:GroupBox name="Screen" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; justify-content: center; align-items: center;">
+        <ui:GroupBox name="Container" style="flex-grow: 0; flex-direction: column; min-width: auto; width: 50%; height: 50%; background-color: rgba(0, 0, 0, 0.6); border-top-left-radius: 40px; border-top-right-radius: 40px; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; align-items: center; justify-content: center; margin-top: 30px; margin-right: 30px; margin-bottom: 30px; margin-left: 30px; padding-top: 50px; padding-right: 50px; padding-bottom: 50px; padding-left: 50px;">
+            <ui:Label tabindex="-1" text="you leveled up !!" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="-unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Roboto-Bold.ttf?fileID=12800000&amp;guid=4beb055f07aaff244873dec698d0363e&amp;type=3#Roboto-Bold&quot;); font-size: 52px; -unity-font-style: bold; color: rgb(255, 255, 255);" />
+            <ui:GroupBox style="flex-grow: 1; width: 100%; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: nowrap;">
+                <ui:VisualElement name="Card" style="flex-grow: 1; flex-shrink: 1; width: 20%; height: 100%;" />
+                <ui:VisualElement name="Card" style="flex-grow: 1; flex-shrink: 1; width: 20%; height: 100%;" />
+                <ui:VisualElement name="Card" style="flex-grow: 1; flex-shrink: 1; width: 20%; height: 100%;">
+                    <ui:VisualElement style="flex-grow: 1;" />
+                </ui:VisualElement>
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:GroupBox>
+</ui:UXML>
