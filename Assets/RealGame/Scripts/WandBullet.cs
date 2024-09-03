@@ -10,7 +10,8 @@ public class Bullet : MonoBehaviour
   private GameObject trailObject;
   private Rigidbody2D rb;
   private Transform playerTransform;
-  private ParticleSystem hitParticles;
+  private ParticleSystem hitPopParticles;
+  private ParticleSystem hitDustParticles;
 
   private void Start()
   {
@@ -24,10 +25,11 @@ public class Bullet : MonoBehaviour
     GetComponent<Collider2D>().isTrigger = true;
     Destroy(gameObject, lifetime);
     playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-    hitParticles = GetComponentInChildren<ParticleSystem>();
-    if (hitParticles == null)
+    hitPopParticles = transform.Find("HitPop")?.GetComponent<ParticleSystem>();
+    hitDustParticles = transform.Find("HitDust")?.GetComponent<ParticleSystem>();
+    if (hitPopParticles == null || hitDustParticles == null)
     {
-      Debug.LogWarning("ParticleSystem child not found on the bullet.");
+      Debug.LogWarning("One or both ParticleSystem children not found on the bullet.");
     }
   }
 
@@ -78,11 +80,17 @@ public class Bullet : MonoBehaviour
     }
 
     // Emit particles on hit
-    if (hitParticles != null)
+    if (hitPopParticles != null)
     {
-      hitParticles.transform.SetParent(null);
-      hitParticles.Emit(10);
-      Destroy(hitParticles.gameObject, hitParticles.main.startLifetime.constantMax);
+      hitPopParticles.transform.SetParent(null);
+      hitPopParticles.Emit(2);
+      Destroy(hitPopParticles.gameObject, hitPopParticles.main.startLifetime.constantMax);
+    }
+    if (hitDustParticles != null)
+    {
+      hitDustParticles.transform.SetParent(null);
+      hitDustParticles.Emit(10);
+      Destroy(hitDustParticles.gameObject, hitDustParticles.main.startLifetime.constantMax);
     }
 
     // Persist the trail and destroy the bullet
