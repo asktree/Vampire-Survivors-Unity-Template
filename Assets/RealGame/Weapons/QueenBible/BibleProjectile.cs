@@ -1,15 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class Bullet : MonoBehaviour
+public class BibleProjectile : MonoBehaviour
 {
   public float damage = 50f;
   public float lifetime = 5f;
   public float trailPersistTime = 0.05f;
-  private float impulseForce = 50f;
+  private float impulseForce = 70f;
 
   private GameObject trailObject;
-  private Rigidbody2D rb;
   private Transform playerTransform;
   private ParticleSystem hitPopParticles;
   private ParticleSystem hitDustParticles;
@@ -21,10 +20,7 @@ public class Bullet : MonoBehaviour
     {
       Debug.LogWarning("Trail child object not found on the bullet.");
     }
-    rb = GetComponent<Rigidbody2D>();
-    rb.isKinematic = true;
     GetComponent<Collider2D>().isTrigger = true;
-    StartCoroutine(DestroyAfterLifetime());
     playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     hitPopParticles = transform.Find("HitPop")?.GetComponent<ParticleSystem>();
     hitDustParticles = transform.Find("HitDust")?.GetComponent<ParticleSystem>();
@@ -34,36 +30,25 @@ public class Bullet : MonoBehaviour
     }
   }
 
-  private IEnumerator DestroyAfterLifetime()
-  {
-    yield return new WaitForSeconds(lifetime);
-    DieWithDignity();
-  }
-
   private void OnTriggerEnter2D(Collider2D collider)
   {
     // Check if we hit an enemy
     Enemy enemy = collider.gameObject.GetComponent<Enemy>();
     if (enemy != null)
     {
+      Vector2 toPlayer = playerTransform.position - transform.position;
+      Vector2 impulseDirection = -Vector2.Perpendicular(toPlayer).normalized;
+      //calculate speed using the rotation speed and radius of our parent, QueenBible
+      QueenBible queenBible = GetComponentInParent<QueenBible>();
+      float speed = queenBible.rotationSpeed * Mathf.Deg2Rad * queenBible.orbitRadius;
+      Vector2 bulletVelocity = impulseDirection * speed;
 
-      SpriteRenderer enemySprite = enemy.GetComponent<SpriteRenderer>();
-      Color enemyColor = enemySprite.color;
 
       // Find the Gore Tilemap and call SpawnBlood
       BloodSplatterTilemap bloodTilemap = FindObjectOfType<BloodSplatterTilemap>();
       if (bloodTilemap != null)
       {
         Vector2 collisionPoint = collider.ClosestPoint(transform.position);
-        Vector2 bulletVelocity = rb.velocity;
-
-        // Check if bullet is moving towards the player
-        Vector2 bulletToPlayer = playerTransform.position - transform.position;
-        if (Vector2.Dot(bulletVelocity, bulletToPlayer) > 0)
-        {
-          // Reverse bullet velocity for blood splatter and impulse
-          bulletVelocity = -bulletVelocity;
-        }
 
         bool enemyGonnaDie = enemy.currentHealth - damage <= 0;
         int bloodAmount = (int)(damage * 15);
@@ -79,61 +64,45 @@ public class Bullet : MonoBehaviour
       Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
       if (enemyRb != null)
       {
-        Vector2 impulseDirection = rb.velocity.normalized;
-        // Check if bullet is moving towards the player
-        if (Vector2.Dot(rb.velocity, playerTransform.position - transform.position) > 0)
-        {
-          // Reverse impulse direction
-          impulseDirection = -impulseDirection;
-        }
         enemyRb.AddForce(impulseDirection * impulseForce, ForceMode2D.Impulse);
       }
 
-      DieWithDignity(enemyColor);
+      //DieWithDignity(enemyColor);
     }
-    /*  else
-     {
-       DieWithDignity();
-     } */
+    else
+    {
+      //DieWithDignity();
+    }
   }
 
   private void DieWithDignity(Color? color = null)
   {
     // Emit particles on hit
-    if (hitPopParticles != null)
-    {
-      hitPopParticles.transform.SetParent(null);
-      hitPopParticles.Emit(2);
-      Destroy(hitPopParticles.gameObject, hitPopParticles.main.startLifetime.constantMax);
-    }
-    if (hitDustParticles != null)
-    {
-      hitDustParticles.transform.SetParent(null);
-      if (color.HasValue)
-      {
-        var main = hitDustParticles.main;
-        Color originalColor = main.startColor.color;
-        Color mixedColor = Color.Lerp(originalColor, color.Value, 0.5f);
-        main.startColor = mixedColor;
-      }
-      hitDustParticles.Emit(10);
-      Destroy(hitDustParticles.gameObject, hitDustParticles.main.startLifetime.constantMax);
-    }
-
+    /*  if (hitPopParticles != null)
+     {
+       hitPopParticles.transform.SetParent(null);
+       hitPopParticles.Emit(2);
+       Destroy(hitPopParticles.gameObject, hitPopParticles.main.startLifetime.constantMax);
+     }
+     if (hitDustParticles != null)
+     {
+       hitDustParticles.transform.SetParent(null);
+       if (color.HasValue)
+       {
+         var main = hitDustParticles.main;
+         Color originalColor = main.startColor.color;
+         Color mixedColor = Color.Lerp(originalColor, color.Value, 0.5f);
+         main.startColor = mixedColor;
+       }
+       hitDustParticles.Emit(10);
+       Destroy(hitDustParticles.gameObject, hitDustParticles.main.startLifetime.constantMax);
+     }
+  */
     // Persist the trail and destroy the bullet
     if (trailObject != null)
     {
       trailObject.transform.SetParent(null);
       Destroy(trailObject, trailPersistTime);
-    }
-    CrackleTrail[] crackleTrails = GetComponentsInChildren<CrackleTrail>();
-    foreach (CrackleTrail crackleTrail in crackleTrails)
-    {
-      GameObject crackleTrailObject = crackleTrail.gameObject;
-      crackleTrailObject.transform.SetParent(null);
-      crackleTrail.Update();
-      crackleTrail.Die();
-      Destroy(crackleTrailObject, trailPersistTime);
     }
 
     Destroy(gameObject);
