@@ -9,6 +9,7 @@ public class RealPlayer : MonoBehaviour
     public int maxHp = 3;
 
     private ImpulseManager impulseManager;
+    private GameObject spriteObject;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
@@ -28,7 +29,21 @@ public class RealPlayer : MonoBehaviour
             Debug.LogError("ImpulseManager not found in the scene!");
         }
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        // find child gameobject called "Spoot"
+        spriteObject = transform.Find("Sprite")?.gameObject;
+        if (spriteObject != null)
+        {
+            // Spoot found, you can use it here if needed
+            Debug.Log("Spoot child object found");
+
+
+        }
+        else
+        {
+            Debug.LogWarning("Spoot child object not found on the player!");
+        }
+
+        spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
             originalColor = spriteRenderer.color;
@@ -37,6 +52,7 @@ public class RealPlayer : MonoBehaviour
         {
             Debug.LogError("SpriteRenderer not found on the player!");
         }
+
     }
 
     void FixedUpdate()
@@ -94,4 +110,30 @@ public class RealPlayer : MonoBehaviour
             TakeDamage();
         }
     }
+
+    public void GetXP()
+    {
+        // Get the Animator component from the spriteObject
+        Animator animator = spriteObject.GetComponent<Animator>();
+
+        if (animator != null)
+        {
+            // Trigger the "Boinking" animation
+            animator.Play("Boinking", 0, 0f);
+
+            // TODO: Decide what should happen after the animation plays
+            // Options to consider:
+            // 1. Do nothing and let it transition naturally to the next state in the Animator
+            // 2. Manually transition to a specific state after a delay
+            // 3. Reset to the default state after the animation duration
+
+            // Example of option 3:
+            // StartCoroutine(ResetAnimationAfterBoinking(animator));
+        }
+        else
+        {
+            Debug.LogWarning("Animator component not found on spriteObject");
+        }
+    }
+
 }

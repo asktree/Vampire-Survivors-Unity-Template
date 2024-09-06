@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     public float minBleedInterval = 0.01f;
     public float maxBleedInterval = 0.3f;
     public int baseBloodAmount = 25;
+    public XpGem xpGemPrefab; // New field for XP gem prefab
 
     private Transform playerTransform;
     private Rigidbody2D rb;
@@ -118,6 +119,17 @@ public class Enemy : MonoBehaviour
         {
             StopCoroutine(bleedCoroutine);
         }
+
+        // Spawn XP gem
+        if (xpGemPrefab != null)
+        {
+            Instantiate(xpGemPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("XP Gem Prefab is not assigned to the enemy!");
+        }
+
         Destroy(gameObject);
     }
 

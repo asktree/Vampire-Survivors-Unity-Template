@@ -107,7 +107,10 @@ MonoBehaviour:
   minBleedInterval: 0.05
   maxBleedInterval: 0.4
   baseBloodAmount: 3
+  xpGemPrefab: {fileID: 5434120310231890030, guid: ec23d69cc24d84331bff58a3785d08dd, type: 3}
   currentHealth: 0
+  color: {r: 1, g: 0, b: 0, a: 1}
+  bloodColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!58 &7605073254785724384
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class Bullet : MonoBehaviour
     rb = GetComponent<Rigidbody2D>();
     rb.isKinematic = true;
     GetComponent<Collider2D>().isTrigger = true;
-    Destroy(gameObject, lifetime);
+    StartCoroutine(DestroyAfterLifetime());
     playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     hitPopParticles = transform.Find("HitPop")?.GetComponent<ParticleSystem>();
     hitDustParticles = transform.Find("HitDust")?.GetComponent<ParticleSystem>();
@@ -31,6 +32,12 @@ public class Bullet : MonoBehaviour
     {
       Debug.LogWarning("One or both ParticleSystem children not found on the bullet.");
     }
+  }
+
+  private IEnumerator DestroyAfterLifetime()
+  {
+    yield return new WaitForSeconds(lifetime);
+    DieWithDignity();
   }
 
   private void OnTriggerEnter2D(Collider2D collider)
@@ -78,6 +85,11 @@ public class Bullet : MonoBehaviour
         enemyRb.AddForce(impulseDirection * impulseForce, ForceMode2D.Impulse);
       }
     }
+    DieWithDignity();
+  }
+
+  private void DieWithDignity()
+  {
 
     // Emit particles on hit
     if (hitPopParticles != null)

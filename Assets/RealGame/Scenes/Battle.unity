@@ -34232,7 +34232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &1051511279
 Grid:
   m_ObjectHideFlags: 0
@@ -34627,6 +34627,18 @@ PrefabInstance:
     - target: {fileID: 1754083598513761995, guid: c164b26075dc24c3ea4f8ec471211d13, type: 3}
       propertyPath: m_Name
       value: PlayerBro
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449623763072431344, guid: c164b26075dc24c3ea4f8ec471211d13, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856187623000728673, guid: c164b26075dc24c3ea4f8ec471211d13, type: 3}
+      propertyPath: damage
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5589063435421009142, guid: c164b26075dc24c3ea4f8ec471211d13, type: 3}
+      propertyPath: m_BodyType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6199005429062901401, guid: c164b26075dc24c3ea4f8ec471211d13, type: 3}
       propertyPath: m_LocalPosition.x
