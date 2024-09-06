@@ -31,7 +31,6 @@ public class Enemy : MonoBehaviour
             rb = gameObject.AddComponent<Rigidbody2D>();
         }
         rb.gravityScale = 0f;  // No gravity
-        rb.freezeRotation = false; // Allow rotation
 
         currentHealth = maxHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -76,11 +75,21 @@ public class Enemy : MonoBehaviour
             // Flip the sprite if the enemy is to the right of the player
             if (transform.position.x > playerTransform.position.x)
             {
-                spriteRenderer.flipY = true;
+                if (rotationSpeed > 0)
+                {
+                    spriteRenderer.flipY = true;
+
+                }
+                else
+                {
+                    spriteRenderer.flipX = true;
+
+                }
             }
             else
             {
                 spriteRenderer.flipY = false;
+                spriteRenderer.flipX = false;
             }
         }
     }

@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 272497905, guid: 7180347e581bd4ca187ac7c65cea89fd, type: 3}
+  m_Sprite: {fileID: 1378278841, guid: c739af9369cae4d43a3ea50f5f7cb67d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 150
   maxVelocity: 2
-  rotationSpeed: 200
+  rotationSpeed: 0
   maxHealth: 1000
   flashDuration: 0.1
   minBleedInterval: 0.05
@@ -145,7 +145,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.8
 --- !u!50 &2745939836973859821
 Rigidbody2D:
   serializedVersion: 4
@@ -172,4 +172,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
