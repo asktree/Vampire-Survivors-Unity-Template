@@ -42,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
         while (true)
         {
             spawnQueue.Enqueue((lordPrefab, 0f));
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(30f);
         }
     }
 

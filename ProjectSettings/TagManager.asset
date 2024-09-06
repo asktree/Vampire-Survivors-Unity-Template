@@ -51,3 +51,18 @@ TagManager:
   - name: XP
     uniqueID: 3725057691
     locked: 0
+  - name: Player Projectiles
+    uniqueID: 3494804969
+    locked: 0
+  - name: Player
+    uniqueID: 2932256907
+    locked: 0
+  - name: Enemy
+    uniqueID: 1497737171
+    locked: 0
+  - name: Enemy Projectiles
+    uniqueID: 2044451321
+    locked: 0
+  - name: Goretiles
+    uniqueID: 212346865
+    locked: 0
