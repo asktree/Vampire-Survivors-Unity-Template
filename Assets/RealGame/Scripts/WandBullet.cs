@@ -46,6 +46,10 @@ public class Bullet : MonoBehaviour
     Enemy enemy = collider.gameObject.GetComponent<Enemy>();
     if (enemy != null)
     {
+
+      SpriteRenderer enemySprite = enemy.GetComponent<SpriteRenderer>();
+      Color enemyColor = enemySprite.color;
+
       // Find the Gore Tilemap and call SpawnBlood
       BloodSplatterTilemap bloodTilemap = FindObjectOfType<BloodSplatterTilemap>();
       if (bloodTilemap != null)
@@ -84,13 +88,17 @@ public class Bullet : MonoBehaviour
         }
         enemyRb.AddForce(impulseDirection * impulseForce, ForceMode2D.Impulse);
       }
+
+      DieWithDignity(enemyColor);
     }
-    DieWithDignity();
+    else
+    {
+      DieWithDignity();
+    }
   }
 
-  private void DieWithDignity()
+  private void DieWithDignity(Color? color = null)
   {
-
     // Emit particles on hit
     if (hitPopParticles != null)
     {
@@ -101,6 +109,13 @@ public class Bullet : MonoBehaviour
     if (hitDustParticles != null)
     {
       hitDustParticles.transform.SetParent(null);
+      if (color.HasValue)
+      {
+        var main = hitDustParticles.main;
+        Color originalColor = main.startColor.color;
+        Color mixedColor = Color.Lerp(originalColor, color.Value, 0.5f);
+        main.startColor = mixedColor;
+      }
       hitDustParticles.Emit(10);
       Destroy(hitDustParticles.gameObject, hitDustParticles.main.startLifetime.constantMax);
     }
