@@ -46,10 +46,6 @@ public class Bullet : MonoBehaviour
     Enemy enemy = collider.gameObject.GetComponent<Enemy>();
     if (enemy != null)
     {
-
-      SpriteRenderer enemySprite = enemy.GetComponent<SpriteRenderer>();
-      Color enemyColor = enemySprite.color;
-
       // Find the Gore Tilemap and call SpawnBlood
       BloodSplatterTilemap bloodTilemap = FindObjectOfType<BloodSplatterTilemap>();
       if (bloodTilemap != null)
@@ -89,7 +85,7 @@ public class Bullet : MonoBehaviour
         enemyRb.AddForce(impulseDirection * impulseForce, ForceMode2D.Impulse);
       }
 
-      DieWithDignity(enemyColor);
+      DieWithDignity();
     }
     /*  else
      {

@@ -33,7 +33,11 @@ public class Enemy : MonoBehaviour
         rb.gravityScale = 0f;  // No gravity
 
         currentHealth = maxHealth;
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer not found on 'Sprite' child object!");
+        }
         if (spriteRenderer == null)
         {
             spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
@@ -70,27 +74,20 @@ public class Enemy : MonoBehaviour
             float rotationAmount = Mathf.MoveTowardsAngle(currentAngle, targetAngle, rotationSpeed * Time.fixedDeltaTime);
 
             // Apply the rotation
-            rb.MoveRotation(rotationAmount);
+            //rb.MoveRotation(rotationAmount);
+
 
             // Flip the sprite if the enemy is to the right of the player
             if (transform.position.x > playerTransform.position.x)
             {
-                if (rotationSpeed > 0)
-                {
-                    spriteRenderer.flipY = true;
-
-                }
-                else
-                {
-                    spriteRenderer.flipX = true;
-
-                }
+                //spriteRenderer.flipX = true;
             }
             else
             {
-                spriteRenderer.flipY = false;
+                //spriteRenderer.flipY = false;
                 spriteRenderer.flipX = false;
             }
+            //transform.rotation = Quaternion.Euler(-90, 0, 0);
         }
     }
 
