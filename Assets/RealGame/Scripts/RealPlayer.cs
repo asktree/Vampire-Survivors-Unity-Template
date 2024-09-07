@@ -30,17 +30,10 @@ public class RealPlayer : MonoBehaviour
         }
 
         // find child gameobject called "Spoot"
-        spriteObject = transform.Find("Sprite")?.gameObject;
-        if (spriteObject != null)
+        spriteObject = transform.transform.Find("Sprite")?.gameObject;
+        if (spriteObject == null)
         {
-            // Spoot found, you can use it here if needed
-            Debug.Log("Spoot child object found");
-
-
-        }
-        else
-        {
-            Debug.LogWarning("Spoot child object not found on the player!");
+            Debug.LogWarning("Sprite child object not found on the player!");
         }
 
         spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();

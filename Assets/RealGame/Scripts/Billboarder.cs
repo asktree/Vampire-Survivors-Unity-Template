@@ -27,7 +27,7 @@ public class Billboarder : MonoBehaviour
       // This ensures the front of the object faces the camera
       //transform.parent.Rotate(0, 0, 180);
 
-      transform.parent.transform.up = mainCamera.transform.up;
+      transform.up = mainCamera.transform.up;
     }
   }
 }

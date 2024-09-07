@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     private Transform playerTransform;
     private Rigidbody2D rb;
     public float currentHealth;
-    private SpriteRenderer spriteRenderer;
     private BloodSplatterTilemap bloodTilemap;
     public Color color = Color.red;
     public Color bloodColor = Color.black;
@@ -33,16 +32,6 @@ public class Enemy : MonoBehaviour
         rb.gravityScale = 0f;  // No gravity
 
         currentHealth = maxHealth;
-        spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null)
-        {
-            Debug.LogError("SpriteRenderer not found on 'Sprite' child object!");
-        }
-        if (spriteRenderer == null)
-        {
-            spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-        }
-        color = spriteRenderer.color;
 
         bloodTilemap = FindObjectOfType<BloodSplatterTilemap>();
         if (bloodTilemap == null)
@@ -65,13 +54,13 @@ public class Enemy : MonoBehaviour
             }
 
             // Calculate the angle to rotate towards
-            float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            //float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             // Calculate the current rotation of the enemy
-            float currentAngle = rb.rotation;
+            //float currentAngle = rb.rotation;
 
             // Calculate the shortest rotation to the target angle
-            float rotationAmount = Mathf.MoveTowardsAngle(currentAngle, targetAngle, rotationSpeed * Time.fixedDeltaTime);
+            //float rotationAmount = Mathf.MoveTowardsAngle(currentAngle, targetAngle, rotationSpeed * Time.fixedDeltaTime);
 
             // Apply the rotation
             //rb.MoveRotation(rotationAmount);
@@ -85,7 +74,7 @@ public class Enemy : MonoBehaviour
             else
             {
                 //spriteRenderer.flipY = false;
-                spriteRenderer.flipX = false;
+                //spriteRenderer.flipX = false;
             }
             //transform.rotation = Quaternion.Euler(-90, 0, 0);
         }
@@ -113,9 +102,9 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator FlashYellow()
     {
-        spriteRenderer.color = Color.yellow;
+        //spriteRenderer.color = Color.yellow;
         yield return new WaitForSeconds(flashDuration);
-        spriteRenderer.color = color;
+        //spriteRenderer.color = color;
     }
 
     private void Die()
