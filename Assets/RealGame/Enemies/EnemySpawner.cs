@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        //playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         // Ensure we have necessary references
         if (enemyPrefabs == null || enemyPrefabs.Length == 0 || playerTransform == null)
         {
