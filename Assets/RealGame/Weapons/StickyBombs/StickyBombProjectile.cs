@@ -76,12 +76,20 @@ public class StickyBombProjectile : MonoBehaviour
     IEnumerator BlinkAndExplode()
     {
         float elapsedTime = 0f;
+        Color originalColor = spriteRenderer.color;
+        Color blinkColor = Color.yellow;
+
         while (elapsedTime < blinkDuration)
         {
-            spriteRenderer.enabled = !spriteRenderer.enabled;
+            // Toggle between original color and yellow
+            spriteRenderer.color = (spriteRenderer.color == originalColor) ? blinkColor : originalColor;
+
             yield return new WaitForSeconds(blinkInterval);
             elapsedTime += blinkInterval;
         }
+
+        // Ensure we end on the original color
+        spriteRenderer.color = originalColor;
 
         Explode();
     }
